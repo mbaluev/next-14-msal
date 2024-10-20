@@ -68,7 +68,6 @@ export const fontRobotoMono = Roboto_Mono({
   subsets: ['latin'],
   display: 'swap',
 });
-
 export const fonts = [
   { value: fontOpenSans.style.fontFamily, label: 'Open Sans' },
   { value: 'arial', label: 'Arial' },
@@ -154,4 +153,14 @@ export const colorsTheme = {
       '290': colorsGrey[10],
     },
   },
+};
+
+export const defaultPalette = {
+  common: colorsCommon,
+  primary: colorsPrimary,
+  secondary: colorsSecondary,
+  info: colorsInfo,
+  success: colorsSuccess,
+  warning: colorsWarning,
+  error: colorsError,
 };

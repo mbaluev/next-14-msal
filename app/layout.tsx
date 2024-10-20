@@ -5,8 +5,7 @@ import { ProviderMsal } from '@/msal/provider';
 import { Layout } from '@/components/layout/layout';
 import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
 import { ThemeProvider as NextThemesProvider } from 'next-themes';
-import { ThemeProvider as MuiThemeProvider } from '@mui/system';
-import theme from '@/core/theme/mui';
+import { MuiThemeProvider } from '@/components/providers/theme-provider';
 
 const font = Open_Sans({ subsets: ['latin'] });
 
@@ -27,15 +26,15 @@ const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
     <html lang="en" style={{ height: '100%' }} suppressHydrationWarning>
       <body className={font.className} style={{ height: '100%', margin: 0 }}>
-        <NextThemesProvider attribute="class" defaultTheme="system" enableSystem>
-          <MuiThemeProvider theme={theme}>
-            <AppRouterCacheProvider>
+        <AppRouterCacheProvider>
+          <NextThemesProvider attribute="class" defaultTheme="system" enableSystem>
+            <MuiThemeProvider>
               <ProviderMsal>
                 <Layout>{children}</Layout>
               </ProviderMsal>
-            </AppRouterCacheProvider>
-          </MuiThemeProvider>
-        </NextThemesProvider>
+            </MuiThemeProvider>
+          </NextThemesProvider>
+        </AppRouterCacheProvider>
       </body>
     </html>
   );
