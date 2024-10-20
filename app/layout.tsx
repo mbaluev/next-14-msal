@@ -1,37 +1,44 @@
-import type { Metadata } from 'next'
-import { Inter } from 'next/font/google'
-import './globals.css'
-import MyMsalProvider from '@/msal/MyMsalProvider'
-import SignOutButton from '@/components/SignOutButton'
-import UserAvatar from '@/components/UserAvatar'
+import type { Metadata, Viewport } from 'next';
+import { ReactNode } from 'react';
+import { Open_Sans } from 'next/font/google';
+import { ProviderMsal } from '@/msal/provider';
+import { Layout } from '@/components/layout/layout';
+import { AppRouterCacheProvider } from '@mui/material-nextjs/v13-appRouter';
+import { ThemeProvider as NextThemesProvider } from 'next-themes';
+import { ThemeProvider as MuiThemeProvider } from '@mui/system';
+import theme from '@/core/theme/mui';
 
-const inter = Inter({ subsets: ['latin'] })
+const font = Open_Sans({ subsets: ['latin'] });
 
 export const metadata: Metadata = {
-  title: 'MSAL with Next.Js App Router',
-  description: 'Created by Mazen Alsenih (https://mazensenih.com | mazen.el.senih@gmail.com)',
-}
+  title: 'next msal',
+  description: 'nextjs and msal integration',
+  icons: '/favicon.ico',
+};
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode
-}) {
+export const viewport: Viewport = {
+  width: 'device-width',
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
 
+const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <html lang="en">
-      <body className={`${inter.className} bg-gray-100 flex flex-col p-4`}>
-        <MyMsalProvider>
-          <main>
-            <div className="w-full text-center">
-              <h1 className="text-3xl font-bold text-gray-700 mb-2">You are logged in</h1>
-              <div className="m-4"><UserAvatar showInfo={true} /></div>
-              <SignOutButton />
-            </div>
-            {children}
-          </main>
-        </MyMsalProvider>
+    <html lang="en" style={{ height: '100%' }}>
+      <body className={font.className} style={{ height: '100%', margin: 0 }}>
+        <NextThemesProvider attribute="class" defaultTheme="system" enableSystem>
+          <MuiThemeProvider theme={theme}>
+            <AppRouterCacheProvider>
+              <ProviderMsal>
+                <Layout>{children}</Layout>
+              </ProviderMsal>
+            </AppRouterCacheProvider>
+          </MuiThemeProvider>
+        </NextThemesProvider>
       </body>
     </html>
-  )
-}
+  );
+};
+
+export default RootLayout;

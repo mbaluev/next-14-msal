@@ -1,29 +1,39 @@
-const CLIENT_ID = "YourClientID";
-export const API_SCOPE = "api://" + CLIENT_ID + "/YourAppName";
+export const AUTH_CONFIG = {
+  clientId: process.env.CLIENT_ID,
+  tenantName: process.env.TENANT_NAME,
+  loginScope: process.env.LOGIN_SCOPE,
+  policy: process.env.POLICY,
+};
 
+const b2cScopes = [
+  `https://${AUTH_CONFIG.tenantName}.onmicrosoft.com/${AUTH_CONFIG.loginScope}`,
+  'email',
+  'openid',
+  'profile',
+  'offline_access',
+];
 export const msalConfig = {
-    auth: {
-        clientId: CLIENT_ID,
-        authority: "https://login.microsoftonline.com/YourTenantID",
-        redirectUri: "/",
-        postLogoutRedirectUri: "/",
-        scope: API_SCOPE,
-        domain: "YourDomain",
-    },
-    cache: {// Optional
-        cacheLocation: 'localStorage',  // Configures cache location. "sessionStorage" is more secure, but "localStorage" gives you SSO between tabs.
-        storeAuthStateInCookie: false,  // Set this to "true" if you are having issues on IE11 or Edge
-    },
+  auth: {
+    clientId: `${AUTH_CONFIG.clientId}`,
+    authority: `https://${AUTH_CONFIG.tenantName}.b2clogin.com/${AUTH_CONFIG.tenantName}.onmicrosoft.com/${AUTH_CONFIG.policy}`,
+    knownAuthorities: [`${AUTH_CONFIG.tenantName}.b2clogin.com`],
+    redirectUri: '/',
+    postLogoutRedirectUri: '/',
+    navigateToLoginRequestUrl: true,
+  },
+  cache: {
+    cacheLocation: 'localStorage', // Configures cache location. "sessionStorage" is more secure, but "localStorage" gives you SSO between tabs.
+    storeAuthStateInCookie: true, // Set this to "true" if you are having issues on IE11 or Edge
+  },
 };
-
 export const loginRequest = {
-    scopes: [API_SCOPE]
+  scopes: b2cScopes,
+  prompt: 'select_account',
 };
-
-export const userDataLoginRequest = {
-    scopes: ["user.read"]
+export const tokenRequest = {
+  scopes: b2cScopes,
+  forceRefresh: false,
 };
-
 export const graphConfig = {
-    graphMeEndpoint: "https://graph.microsoft.com/v1.0/me"
+  graphMeEndpoint: 'https://graph.microsoft.com/v1.0/me',
 };

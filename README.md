@@ -44,7 +44,7 @@ http://localhost:3000/
 ```
 ## v0.2.0 Change log:
 - Added User avatar component to handle user photo, or display initials avatar when no photo provided or the photo is blank/corrupted, and whether or not to show the basic user info like name, username.
-- Added user claims handling, and a dedicated component [components/UserRolesContainer.tsx](components/UserRolesContainer.tsx) to render content based on user claims.
+- Added user claims handling, and a dedicated component [components/UserRolesContainer.tsx](core/security/rolesWrapper.tsx) to render content based on user claims.
 - Added a page to test Admin only user access.
 - Added a page to test getting the user token generated based on your MSAL configuration, this can be very handy when talking to your custom APIs.
 - All the above are tested and functioning correctly as expected.
