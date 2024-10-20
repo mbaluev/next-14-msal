@@ -25,7 +25,7 @@ export const viewport: Viewport = {
 
 const RootLayout = ({ children }: { children: ReactNode }) => {
   return (
-    <html lang="en" style={{ height: '100%' }}>
+    <html lang="en" style={{ height: '100%' }} suppressHydrationWarning>
       <body className={font.className} style={{ height: '100%', margin: 0 }}>
         <NextThemesProvider attribute="class" defaultTheme="system" enableSystem>
           <MuiThemeProvider theme={theme}>
